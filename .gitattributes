@@ -1,1 +1,1 @@
-*.rby linguist-language=RubyHDL
+*.rby linguist-language=RubyHDL linguist-detectable=true
