@@ -1,0 +1,3 @@
+INCLUDE "common/btree.rby".
+
+current = btree 1 add .

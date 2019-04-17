@@ -1,0 +1,5 @@
+# Build a adder that takes two input wires.
+
+INCLUDE "common/btree.rby".
+
+current = btree 2 add .
