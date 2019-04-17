@@ -1,0 +1,4 @@
+[submodule "ruby"]
+	path = ruby
+	url = https://github.com/custom-computing-ic/ruby
+	branch = master
