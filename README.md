@@ -21,7 +21,7 @@ It will be located under `ruby` in the current repository as a Git submodule.
 This repository contains several Machine Learning application in the same level of sub-directories.
 
 - `common/`: a common library contains common designs, e.g., `prelude.rby`
-
+- `linalg/`: a library of linear algebra operations.
 
 ## Build the Project
 

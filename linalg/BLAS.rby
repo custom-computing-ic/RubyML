@@ -1,0 +1,28 @@
+##########################################################
+# BLAS operations in RubyHDL.
+#
+##########################################################
+
+INCLUDE "common/prelude.rby" .
+INCLUDE "common/btree.rby" .
+INCLUDE "common/radd.rby" .
+
+
+##########################################################
+# Level 1 BLAS routines.
+# 
+# Operating on vectors, which are represented as lists 
+#   in RubyHDL.
+#
+##########################################################
+
+
+##########################################################
+# Dot-product between two vectors of length n.
+#
+# This design is fully pipelined.
+#
+# Usage:
+#   <<x_1, x_2, ..., x_n>, <y_1, y_2, ..., y_n>> (dp n) z
+##########################################################
+dp n = zip n; map n (mult; (DI 0)); btree n add . 

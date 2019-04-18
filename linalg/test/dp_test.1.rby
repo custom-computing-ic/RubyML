@@ -1,0 +1,16 @@
+# Test dp in BLAS.rby
+INCLUDE "linalg/BLAS.rby". 
+
+# SIM
+#
+# > relinux --extra-cycles 2 "1 1 1 1; 2 2 2 2; 3 3 3 3" 
+#
+# Simulation start :
+# 
+# 0 - <<1,1>,<1,1>> ~ <2>
+# 1 - <<2,2>,<2,2>> ~ <8>
+# 2 - <<3,3>,<3,3>> ~ <18>
+# 
+# Simulation end :
+
+current = dp 2; ([-]^~1; AD^2; [-]).
