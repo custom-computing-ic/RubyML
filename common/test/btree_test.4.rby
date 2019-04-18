@@ -1,0 +1,5 @@
+# Test btree with 4 inputs
+
+INCLUDE "common/btree.rby".
+
+current = btree 4 add .

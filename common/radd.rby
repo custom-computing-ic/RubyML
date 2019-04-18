@@ -1,0 +1,15 @@
+###############################################################
+# This module describes a reduce add operation.
+#
+# Its core is implemented by the `loop` primitive.
+###############################################################
+
+INCLUDE "common/prelude.rby".
+
+# The radd primitive.
+#
+# Implemented by:
+# 1) Removing the brackets around the input <x>
+# 2) Feeding the bare x into the loop
+# 3) Adding brackets around the output of the reduce add result.
+radd = [-]^~1; loop (add; DI 0; fork); [-] .

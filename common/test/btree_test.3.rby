@@ -1,0 +1,5 @@
+# Add 3 input elements through btree 
+
+INCLUDE "common/btree.rby".
+
+current = btree 3 add .

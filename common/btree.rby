@@ -1,4 +1,40 @@
+###############################################################
+# This module describes a simple binary tree (BTREE) shaped
+# design that reduces inputs.
+#
+# The design is built recursively.
+###############################################################
+
 INCLUDE "common/prelude.rby".
+
+###############################################################
+# The definition of btree.
+# 
+# We insert registers (initialised by 0) after
+#   all output wires.
+###############################################################
+btree n R =
+  IF (n $eq 1) THEN id
+  ELSE (
+    LET m = n / 2 IN (
+      IF ((n $mod 2) $eq 0)
+      # If n is divisible by 2, we simply separate input into
+      # m groups and pass them to lower level btree.
+      THEN (pair m; map m (R; (DI 0)); btree m R)
+
+      # If n is not divisible by 2,
+      # we first split out the left-most element,
+      # then split the rest of the 2-divisible part into pairs,
+      # and finally call btree after these lists are concatenated.
+      ELSE (
+        (apl (n-1))^~1;
+        [(DI 0), pair m; map m (R; (DI 0))];
+        (apl m);
+        (btree (m + 1) R)
+      )
+    )
+    END
+  ) .
 
 # original version
 # btree n R = IF (n $eq 1) THEN R
@@ -18,7 +54,11 @@ INCLUDE "common/prelude.rby".
 #               END
 #             ) .
 
-# bin:
+# bin: 
+# create the list of inputs for the btree.
+#
+# NOTE: this method could be DEPRECATED.
+#
 # if n % 2 != 0
 # <x1, x2, ..., xn> (bin n) <<x1, x2>, ..., <xn>>
 # else
@@ -39,22 +79,6 @@ bin n = IF (n $eq 1) THEN [-]
           )
           END
         ) .
-
-# use bin
-btree n R = IF (n $eq 1) THEN id
-            ELSE (
-              LET m = n / 2 IN (
-                IF ((n $mod 2) $eq 0)
-                THEN (pair m; map m (R; (DI 0)); btree m R)
-                ELSE (
-                  (apl (n-1))^~1;
-                  [(DI 0), pair m; map m (R; (DI 0))];
-                  (apl m);
-                  (btree (m + 1) R)
-                )
-              )
-              END
-            ) .
 
 # pipelined version
 # btree n R = IF (n $eq 1) THEN ((D) \ [-])
