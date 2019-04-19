@@ -48,6 +48,52 @@ sldw1d n k =
 
 
 
+# 2D sliding window:
+#
+# <<x>_m>_n ~ <<x>_{h*w}>_{(n-w+1)*(m-h+1)}
+
+# take a 2d window
+takw2d n m h w i j =
+  takw1d n h i;
+  map h (takw1d m w j).
+
+# recursive 2D sliding window:
+#
+# sldr2dc works along columns for each row (i) 
+sldr2dc n m h w i j = 
+  LET mm = m - w - j + 1 IN (
+    IF (mm $eq 0) THEN []
+    ELSE (
+      (apl (mm - 1))^~1;
+      [ takw2d  n m h w i j,
+        sldr2dc n m h w i (j + 1)]
+    )
+  ) END.
+sldw2dc n m h w i = 
+  LET mm = m - w + 1 IN (
+    mfork mm;
+    sldr2dc n m h w i 0;
+    flatr mm
+  ) END.
+
+# sldr2d works along rows
+sldr2d n m h w i = 
+  LET nn = n - h - i + 1 IN (
+    IF (nn $eq 0) THEN []
+    ELSE (
+      (apl (nn - 1))^~1;
+      [ sldw2dc n m h w i,
+        sldr2d n m h w (i + 1)]
+    )
+  ) END.
+sldw2d n m h w = 
+  LET nn = n - h + 1 IN (
+    mfork nn;
+    sldr2d n m h w 0;
+    flatr nn 
+  ) END.
+
+
 ##########################################################
 # Convolution functions.
 ##########################################################
@@ -68,6 +114,29 @@ conv1d n k =
     zip m;
     map m (vdot k; [-]^~1)
   ) END.
+
+# Conv2D: 2 dimensional convolution
+# <<<x>_m>_n, <<w>_w>_h> ~ <<y>_{m-w+1}>_{n-h+1}
+#
+#
+# This design is fully unrolled and pipelined.
+
+conv2d n m h w = 
+  LET nn = n - h + 1 IN (
+    LET mm = m - w + 1 IN (
+      [ sldw2d n m h w, # input <<<<x>_w>_h>_{mm}>_{nn}
+        (mfork mm; mfork nn) ];
+      [ (group nn mm)^~1, (group nn mm)^~1 ];
+      zip (mm * nn);
+      map (mm * nn) (
+        [ (group h w)^~1, (group h w)^~1 ]; 
+        vdot (h * w);
+        [-]^~1
+      );
+      group nn mm
+    ) END
+  ) END.
+
 
 ##########################################################
 # Activation functions.

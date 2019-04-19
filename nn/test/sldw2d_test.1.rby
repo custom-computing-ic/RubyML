@@ -1,0 +1,5 @@
+# Test sldw2d
+
+INCLUDE "nn/NN.rby".
+
+current = sldw2d 5 5 3 3 .

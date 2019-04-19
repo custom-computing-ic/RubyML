@@ -1,0 +1,4 @@
+# Test takw2d primitive
+INCLUDE "nn/NN.rby".
+
+current = takw2d 5 5 3 3 1 1.
