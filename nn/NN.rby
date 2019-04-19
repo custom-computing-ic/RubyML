@@ -8,6 +8,61 @@ INCLUDE "linalg/BLAS.rby".
 
 
 ##########################################################
+# Sliding window functions.
+#
+# These are helper functions to construct inputs for
+#   primitives like convolution and pooling.
+##########################################################
+
+# 1D sliding window:
+#
+# <x_1, x_2, ..., x_n> ~ <<x_1,       ..., x_k>,
+#                         <x_2,       ..., x_{k+1}>,
+#                         ...
+#                         <x_{n-k+1}, ..., x_n>>
+#
+# n is the length of the input, k is the window size,
+
+# take a window
+takw1d n k i = drop i n; take k (n - i).
+
+# recursive 1D sliding window:
+# <<x>_n>_m - m number of <x>_n is in its domain.
+sldr1d n k i =
+  LET m = n - k - i + 1 IN (
+    IF (m $eq 0) THEN []
+    ELSE (
+      (apl (m - 1))^~1;    # produce <<x>_n, <<x>_n>_{m-1}>
+      [takw1d n k i,       # take the window out
+       sldr1d n k (i + 1)] # proceed to the next
+    )
+  ) END.
+
+# outer function
+sldw1d n k =
+  LET m = n - k + 1 IN (
+    mfork m;
+    sldr1d n k 0; # core sliding function
+    flatr m
+  ) END.
+
+##########################################################
+# Convolution functions.
+##########################################################
+
+# Conv1D: 1 dimensional convolution
+# <<x_1, x_2, ..., x_n>, <w_1, w_2, ..., w_k>>
+#   ~ <y_1, y_2, ..., y_m>
+#
+# m = n - k + 1.
+#
+# k is the kernel size.
+#
+# This design is fully unrolled and pipelined.
+
+# conv1d n k = 
+
+##########################################################
 # Activation functions.
 ##########################################################
 
