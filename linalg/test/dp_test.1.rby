@@ -13,4 +13,4 @@ INCLUDE "linalg/BLAS.rby".
 # 
 # Simulation end :
 
-current = dp 2; ([-]^~1; AD^2; [-]).
+current = vdot 2; ([-]^~1; AD^2; [-]).

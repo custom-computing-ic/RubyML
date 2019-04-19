@@ -23,6 +23,6 @@ INCLUDE "common/radd.rby" .
 # This design is fully pipelined.
 #
 # Usage:
-#   <<x_1, x_2, ..., x_n>, <y_1, y_2, ..., y_n>> (dp n) z
+#   <<x_1, x_2, ..., x_n>, <y_1, y_2, ..., y_n>> (vdot n) z
 ##########################################################
-dp n = zip n; map n (mult; (DI 0)); btree n add . 
+vdot n = zip n; map n (mult; (DI 0)); btree n add . 

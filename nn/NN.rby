@@ -1,0 +1,24 @@
+##########################################################
+# Neural Network operations in RubyHDL.
+#
+##########################################################
+
+INCLUDE "common/prelude.rby".
+INCLUDE "linalg/BLAS.rby".
+
+
+##########################################################
+# Activation functions.
+##########################################################
+
+# ReLU:
+# <x> ~ relu ~ <y> y is 0 or x if x > 0
+#
+# This implementation first creates two pairs of <x, 0>
+# and use the comparison result from one of them to 
+# serve as a selector for the other.
+#
+# NOTE: no registers are involved - this is a pure
+# combinatorial logic.
+# NOTE: it takes only one input element.
+relu = pi1^~1; snd 0; fork; fst ltn; muxr 2.

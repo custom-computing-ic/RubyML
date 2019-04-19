@@ -1,0 +1,4 @@
+# Test the relu relation in the NN library.
+INCLUDE "nn/NN.rby".
+
+current = relu .
