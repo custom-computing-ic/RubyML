@@ -2,7 +2,4 @@
 INCLUDE "nn/NN.rby".
 
 
-# current = [[], [[]]]; apl 1.
-# current = [ (drop 1 5; take 3 4), [(drop 2 5; take 3 3)]]; apl 1.
-
 current = sldw1d 5 3.

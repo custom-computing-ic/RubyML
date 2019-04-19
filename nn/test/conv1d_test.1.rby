@@ -1,0 +1,5 @@
+# Test conv1d 
+
+INCLUDE "nn/NN.rby".
+
+current = conv1d 5 3.

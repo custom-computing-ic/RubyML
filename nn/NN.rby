@@ -46,6 +46,8 @@ sldw1d n k =
     flatr m
   ) END.
 
+
+
 ##########################################################
 # Convolution functions.
 ##########################################################
@@ -60,7 +62,12 @@ sldw1d n k =
 #
 # This design is fully unrolled and pipelined.
 
-# conv1d n k = 
+conv1d n k =
+  LET m = n - k + 1 IN (
+    [sldw1d n k, mfork m];
+    zip m;
+    map m (vdot k; [-]^~1)
+  ) END.
 
 ##########################################################
 # Activation functions.

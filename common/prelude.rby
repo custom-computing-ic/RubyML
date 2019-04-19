@@ -127,7 +127,7 @@ riffle n = half n ; zip n ; (pair n)^~1.
 ###
 ### <x1,<x2,<x3,..,<xn,<>>>>> (flatr n) <x1,x2,x3,..,xn>
 
-flatr n         = IF (n $eq 0) THEN []
+flatr n        = IF (n $eq 0) THEN []
                                ELSE ( snd (flatr (n-1)) ; apl (n-1) ).
 
 #######################################################
