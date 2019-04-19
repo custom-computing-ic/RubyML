@@ -1,4 +1,4 @@
-# Test dp in BLAS.rby
+# Test vdot in BLAS.rby
 INCLUDE "linalg/BLAS.rby". 
 
 # SIM

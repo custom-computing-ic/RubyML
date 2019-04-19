@@ -26,3 +26,33 @@ INCLUDE "common/radd.rby" .
 #   <<x_1, x_2, ..., x_n>, <y_1, y_2, ..., y_n>> (vdot n) z
 ##########################################################
 vdot n = zip n; map n (mult; (DI 0)); btree n add . 
+
+
+
+##########################################################
+# Level 2 BLAS routines.
+# 
+# Operating on matrices and vectors, which are represented as
+#   list of lists and lists in RubyHDL.
+#
+##########################################################
+
+
+##########################################################
+# Dot-product between a matrix of shape <m, n> and a 
+#   vector of shape n, produces a vector of shape m.
+#
+# This design is fully unrolled and pipelined.
+#
+# Usage:
+#   <<<x_11, x_12, ..., x_1n>,
+#     <x_21, x_22, ..., x_2n>,
+#     ...
+#     <x_m1, x_m2, ..., x_mn>>,
+#    <y_1, y_2, ..., y_n>>
+#   (mvdot m n)
+#   <z_1, z_2, ..., z_m>
+##########################################################
+mvdot m n = snd (mfork m) ;         # copy the vector for m times
+            zip m;                  # pair them
+            map m (vdot n; [-]^~1). # reuse vector-vector dot-product

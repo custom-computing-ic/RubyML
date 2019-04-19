@@ -22,6 +22,7 @@ This repository contains several Machine Learning application in the same level 
 
 - `common/`: a common library contains common designs, e.g., `prelude.rby`
 - `linalg/`: a library of linear algebra operations.
+- `nn/`: a neural network library.
 
 ## Build the Project
 

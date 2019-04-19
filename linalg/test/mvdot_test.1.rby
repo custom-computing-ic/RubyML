@@ -1,0 +1,11 @@
+# Test mvdot.
+INCLUDE "linalg/BLAS.rby".
+
+# dot product between a 4x3 matrix and a 3 vector.
+# > ./ruby/bin/relinux --extra-cycles 3 "1 2 3 4 5 6 7 8 9 10 11 12 3 2 4" 
+# Simulation start :
+# 
+#   0 - <<<1,2,3>,<4,5,6>,<7,8,9>,<10,11,12>>,<3,2,4>> ~ <19,46,73,100>
+# 
+# Simulation end :
+current = mvdot 4 3; map 4 (AD^3) .
