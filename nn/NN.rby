@@ -46,8 +46,6 @@ sldw1d n k =
     flatr m
   ) END.
 
-
-
 # 2D sliding window:
 #
 # <<x>_m>_n ~ <<x>_{h*w}>_{(n-w+1)*(m-h+1)}
@@ -93,6 +91,29 @@ sldw2d n m h w =
     flatr nn 
   ) END.
 
+##########################################################
+# Striding functions.
+#   Takes every s element from the given list or list of
+#   lists.
+##########################################################
+
+# 1D striding:
+# <x_1, x_2, ..., x_n> ~ <x_1, x_{s+1}, ..., x_{(n/s-1)*s+1}>
+strd1d n s =
+  LET m = n / s IN 
+    group m s;
+    map m ((apl (s-1))^~1; pi1) # take the first element
+  END.
+
+# 2D striding (sx=sy=2)
+# <<x_11, x_12, ..., x_1m>,      <<x_11, x_13, ..., x_{1,m/2+1}>,
+#  <x_21, x_22, ..., x_2m>,   ~   <x_31, x_33, ..., x_{3,m/2+1}>,
+#  ...                            ...
+#  <x_n1, x_n2, ..., x_nm>>       <x_{n/2+1,1}, ...,x_{n/2+1,m/2+1}>>
+strd2d n m sx sy = 
+  map n (strd1d m sy);
+  strd1d n sx .
+
 
 ##########################################################
 # Convolution functions.
@@ -137,6 +158,14 @@ conv2d n m h w =
     ) END
   ) END.
 
+
+##########################################################
+# Pooling functions.
+##########################################################
+
+
+# MaxPool2D: max-pooling in spatial
+# 
 
 ##########################################################
 # Activation functions.
