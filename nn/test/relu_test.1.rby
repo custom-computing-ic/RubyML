@@ -1,4 +1,17 @@
 # Test the relu relation in the NN library.
 INCLUDE "nn/NN.rby".
 
+# Simulation
+# ./ruby/bin/relinux "1; -1; -2; 3"
+# 
+# 
+# Simulation start :
+# 
+#   0 - 1 ~ 1
+#   1 - -1 ~ 0
+#   2 - -2 ~ 0
+#   3 - 3 ~ 3
+# 
+# Simulation end :
+
 current = relu .

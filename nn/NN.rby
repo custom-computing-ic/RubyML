@@ -152,4 +152,7 @@ conv2d n m h w =
 # NOTE: no registers are involved - this is a pure
 # combinatorial logic.
 # NOTE: it takes only one input element.
-relu = pi1^~1; snd 0; fork; fst ltn; muxr 2.
+# NOTE: convert from boolean to binary values before passing the
+# selector to muxr (thanks Tim)
+muxr2_b = fst ([-] ; bit2uint 1) ; muxr 2.
+relu = pi1^~1; snd 0; fork; fst ltn; muxr2_b.
