@@ -163,9 +163,31 @@ conv2d n m h w =
 # Pooling functions.
 ##########################################################
 
+# Pool1D: 1d pooling
+# n - input length; k - kernel size; s - stride size
+# f - the reduction function, e.g., max
+pool1d n k s f = 
+  LET m = n - k + 1 IN # number of windows
+    sldw1d n k;
+    strd1d m s;
+    map (m/s) (btree k f)
+  END.
+maxp1d n k s = pool1d n k s max .
 
-# MaxPool2D: max-pooling in spatial
-# 
+# Pool2D: max-pooling in spatial
+pool2d n m h w sx sy f =
+  LET nn = n - h + 1 IN
+  LET mm = m - w + 1 IN
+    sldw2d n m h w ;
+    strd2d nn mm sx sy ;
+    map (nn/sx) (map (mm/sy) (
+      (group h w)^~1;
+      btree (h * w) f;
+      [-]^~1
+    ))
+  END
+  END.
+maxp2d n m h w sx sy = pool2d n m h w sx sy max .
 
 ##########################################################
 # Activation functions.
