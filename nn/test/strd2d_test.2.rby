@@ -1,0 +1,3 @@
+INCLUDE "nn/NN.rby".
+
+current = strd2d 2 3 1 1 .
